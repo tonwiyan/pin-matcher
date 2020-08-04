@@ -50,8 +50,9 @@
                                         </div>
                                 </div>
                                 <div>
-                                    <button type="submit" class="submit-btn" onclick="btnSubmit()">Submit</button>
-                                    <p class="action-left">3 try left</p>
+                                    <button type="submit" id="trySubmit" class="submit-btn"
+                                        onclick="btnSubmit()">Submit</button>
+                                    <p class="action-left" id='tries'>3 try left</p>
                                 </div>
                             </div>
                         </div>
@@ -64,28 +65,38 @@
             </div>
 
             <script>
-                // const message = document.getElementById("notify-message");
-                // message.style.display = "none";
+                let tries = 3;
+
+                //notification remove
                 document.getElementById("notify-message").style.visibility = "hidden";
-
+                //submit button
                 function btnSubmit() {
-                    const randomNum = document.getElementById('randomValue').value;
-                    const inputNum = document.getElementById('inputValue').value;
-                    if (randomNum === inputNum) {
+                    const randomNum = parseInt(document.getElementById('randomValue').value);
+                    const inputNum = parseInt(document.getElementById('inputValue').value);
+
+                    if (randomNum == inputNum) {
+
                         document.getElementById("match").style.visibility = "visible";
+                        document.getElementById("notMatch").style.visibility = "hidden";
                     }
-                    else
+                    else if (randomNum != inputNum) {
                         document.getElementById("notMatch").style.visibility = "visible";
+                        document.getElementById("match").style.visibility = "hidden";
 
-
+                        tries--;
+                        document.getElementById('tries').innerHTML = tries + ' tries left.';
+                        if (tries == 0) {
+                            document.getElementById("trySubmit").setAttribute("disabled", "disabled");
+                        }
+                    }
                 }
 
+                //all clear
                 function remove() {
                     document.getElementById("inputValue").value = " ";
                 }
-
+                //one by one clear
                 function oneRemove() {
-
                     const number = document.getElementById('inputValue').value;
                     document.getElementById("inputValue").value = number.slice(0, -1);
                 }
